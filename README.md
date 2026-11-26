@@ -30,12 +30,12 @@ DATA <- fluidPage(
   selectInput(
   "variable1",
   "Enter the first data to compare:",
-  choices = names(dig_df)
+  choices = setdiff(names(dig_df), "ID")
 ),
 selectInput(
   "variable2",
   "Enter the second data to compare:",
-  choices = names(dig_df)
+  choices = setdiff(names(dig_df), "ID")
 ),
 tableOutput("comprison"),
  hr(),
@@ -65,10 +65,11 @@ ANALYSIS <- function(input, output, session) {
     )
   })
   output$comprison <- renderTable({
-    head(dig_logical())
+    dig_logical()
   })
-  output$analysis <- renderTable({
-    head(dig_df)
+    output$analysis <- renderTable({
+  req(input$variable, input$operation)
+
 
 
     dig_df %>%
